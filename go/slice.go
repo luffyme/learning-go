@@ -123,4 +123,32 @@ func main() {
 	s20[4] = 100
 	fmt.Println("对数组进行修改后：")
 	fmt.Println(s21, len(s21), cap(s21))
+
+	//7.切片的深拷贝
+	//Go 语言还内置了一个 copy 函数，用来进行切片的深拷贝。不过其实也没那么深，只是深到底层的数组而已。
+	//如果数组里面装的是指针，比如 []*int 类型，那么指针指向的内容还是共享的。
+	//copy 函数不会因为原切片和目标切片的长度问题而额外分配底层数组的内存
+	//它只负责拷贝数组的内容，从原切片拷贝到目标切片
+	//拷贝的量是原切片和目标切片长度的较小值 —— min(len(src), len(dst))，函数返回的是拷贝的实际长度
+	var s22 = make([]int, 5, 8)
+	for i:=0;i<len(s22);i++ {
+		s22[i] = i+1
+	}
+	fmt.Println("copy前的原始切片：")
+	fmt.Println(s22)
+	var s23 = make([]int, 2, 6)
+	var n = copy(s23, s22)
+	fmt.Println("copy后的切片与长度：")
+	fmt.Println(s23, n)
+
+	//8.切片的扩容点
+	//当比较短的切片扩容时，系统会多分配 100% 的空间，也就是说分配的数组容量是切片长度的2倍。
+	//但切片长度超过1024时，扩容策略调整为多分配 25% 的空间，这是为了避免空间的过多浪费。
+	var s24 = make([]int, 6)
+	var s25 = make([]int, 1024)
+	s24 = append(s24, 1)
+	s25 = append(s25, 2)
+	fmt.Println("扩容后的切片：")
+	fmt.Println(len(s24), cap(s24))
+	fmt.Println(len(s25), cap(s25))
 }
