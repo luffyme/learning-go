@@ -28,7 +28,25 @@ Go学习文档
 [煎鱼的博客](https://github.com/EDDYCJY/blog)    
 [Go语言圣经](https://books.studygolang.com/gopl-zh/?tdsourcetag=s_pcqq_aiomsg)        
 [Golang从入门到跑路](https://github.com/jiujuan/go-collection?tdsourcetag=s_pcqq_aiomsg)         
+### 《快学 Go 语言》
 
+* [《快学 Go 语言》第 1 课 —— Hello World](https://mp.weixin.qq.com/s/gbz9-gXZjE05L-8L2lL-UA)
+* [《快学 Go 语言》第 2 课 —— 变量什么的最讨厌了](https://mp.weixin.qq.com/s/PFZBxYH-L5svUHONIT4YLQ)
+* [《快学 Go 语言》第 3 课 —— 分支与循环](https://mp.weixin.qq.com/s/49pVEDXSZblNNaSZS1vlXw)
+* [《快学 Go 语言》第 4 课 —— 低调的数组](https://mp.weixin.qq.com/s/HETSijks5UlCE1L3h_Fj_A)
+* [《快学 Go 语言》第 5 课 —— 神奇的切片](https://mp.weixin.qq.com/s/XfyBIZ2TaFULAEmucCihzw)
+* [《快学 Go 语言》第 6 课 —— 字典](https://mp.weixin.qq.com/s/mOE7wJuJ22JzM7jlI1tsJg)
+* [《快学 Go 语言》第 7 课 —— 冰糖葫芦串](https://mp.weixin.qq.com/s/9TOeILzJwOkSNfQ1OijUIw)
+* [《快学 Go 语言》第 7 课 —— 诱人的烤串](https://mp.weixin.qq.com/s/XYDrS383ZrKfW4ySb89IOQ)
+* [《快学 Go 语言》第 8 课 —— 程序大厦是如何构建起来的](https://mp.weixin.qq.com/s/VdNvbGj0TfIdmdDVpYxO2w)
+* [《快学 Go 语言》第 9 课 —— 接口](https://mp.weixin.qq.com/s/2naJiu3GeNeT8gVyhMo1fA)
+* [《快学 Go 语言》第 10 课 —— 错误与异常](https://mp.weixin.qq.com/s/2hFl-3HEpzMrqLuaxrAiwQ)
+* [《快学 Go 语言》第 11 课 —— 千军万马跑协程](https://mp.weixin.qq.com/s/shsV8Eef2K_ccgcmfKVSJA)
+* [《快学 Go 语言》第 12 课 —— 神秘的地下通道](https://mp.weixin.qq.com/s/eZTFa-8drmkZUXsvHycorQ)
+* [《快学 Go 语言》第 13 课 —— 并发与安全](https://mp.weixin.qq.com/s/_eB53Vq_dimKSIthR_PllQ)
+* [《快学 Go 语言》第 14 课 —— 魔术变性指针](https://mp.weixin.qq.com/s/A4r6JGls6ijMLtdSDVWp8w)
+* [《快学 Go 语言》第 15 课 —— 反射](https://mp.weixin.qq.com/s/j_eE_AJp01JCLWO52bPSlw)
+* [《快学 Go 语言》第 16 课 —— 包管理 GOPATH 和 Vendor](https://mp.weixin.qq.com/s/JS9dbanrly21vbFRZiRoIg)
 
 ### Go语言爱好者周刊
 
