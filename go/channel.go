@@ -21,14 +21,14 @@ func main() {
 	//Go 语言为通道的读写设计了特殊的箭头语法糖 <-
 	//把箭头写在通道变量的右边就是写通道，把箭头写在通道的左边就是读通道。
 	//一次只能读写一个元素。
-	
-    var ch chan int = make(chan int, 4)
-    for i:=0; i<cap(ch); i++ {
-        ch <- i   // 写通道
-    }
-    for len(ch) > 0 {
-        var value int = <- ch  // 读通道
-        fmt.Println(value)
+
+	var ch chan int = make(chan int, 4)
+	for i:=0; i<cap(ch); i++ {
+		ch <- i   // 写通道
+	}
+	for len(ch) > 0 {
+		var value int = <- ch  // 读通道
+		fmt.Println(value)
 	}
 	
 	//2.读写阻塞
