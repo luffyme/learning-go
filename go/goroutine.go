@@ -11,29 +11,29 @@ func main() {
 	//Go 语言里创建一个协程非常简单，使用 go 关键词加上一个函数调用就可以了
 	//Go 语言会启动一个新的协程，函数调用将成为这个协程的入口。
 	//Go里面协程之间不存在那么多层级关系，只有一个主协程，其他的都是子协程，子协程之间是平行关系。
-    fmt.Println("run in main goroutine")
-    go func() {
-        fmt.Println("run in child goroutine")
-        go func() {
-            fmt.Println("run in grand child goroutine")
-            go func() {
-                fmt.Println("run in grand grand child goroutine")
-            }()
-        }()
-    }()
-    time.Sleep(time.Second)
+	fmt.Println("run in main goroutine")
+	go func() {
+		fmt.Println("run in child goroutine")
+		go func() {
+			fmt.Println("run in grand child goroutine")
+			go func() {
+				fmt.Println("run in grand grand child goroutine")
+			}()
+		}()
+	}()
+	time.Sleep(time.Second)
 	fmt.Println("main goroutine will quit")
 	
 	//2.子协程的异常退出
 	//在使用子协程时一定要特别注意保护好每个子协程，确保它们正常安全的运行。
 	//因为子协程的异常退出会将异常传播到主协程，直接会导致主协程也跟着挂掉，然后整个程序就崩溃了。
 	
-    fmt.Println("run in main goroutine")
-    go func() {
-        fmt.Println("run in child goroutine")
-        //panic("wtf")
-    }()
-    time.Sleep(time.Second)
+	fmt.Println("run in main goroutine")
+	go func() {
+		fmt.Println("run in child goroutine")
+		//panic("wtf")
+	}()
+	time.Sleep(time.Second)
 	fmt.Println("main goroutine will quit")
 	
 	//3.协程的本质
@@ -67,14 +67,14 @@ func main() {
 	fmt.Println(runtime.GOMAXPROCS(0))
 
 	//获取当前的协程数量可以使用 runtime 包提供的 NumGoroutine() 方法
-    fmt.Println(runtime.NumGoroutine())
-    for i:=0;i<10;i++ {
-        go func(){
-            for {
-                time.Sleep(time.Second)
-            }
-        }()
-    }
+	fmt.Println(runtime.NumGoroutine())
+	for i:=0;i<10;i++ {
+		go func(){
+			for {
+				time.Sleep(time.Second)
+			}
+		}()
+	}
 	fmt.Println(runtime.NumGoroutine())
 	
 	//5.协程的应用
