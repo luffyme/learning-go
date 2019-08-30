@@ -125,6 +125,6 @@ Go学习文档
 [写给新手的 Go 开发指南](https://liujiacai.net/blog/2019/07/17/hello-golang/?tdsourcetag=s_pcqq_aiomsg)     
 [也许是最简洁版本，一篇文章上手Go语言](https://mp.weixin.qq.com/s/BZZYyPMcVayyPyt5ysVSbw?tdsourcetag=s_pcqq_aiomsg)     
 
-##### 进阶
+### 进阶
 * [Go代码断行规则](https://gfw.go101.org/article/line-break-rules.html)
 * [Go中的nil](https://gfw.go101.org/article/nil.html)
