@@ -71,14 +71,14 @@ func main() {
 
 	//可以使用 for range 语法糖来遍历通道
 	//当通道空了，循环会暂停阻塞，当通道关闭时，阻塞停止，循环也跟着结束了。当循环结束时，我们就知道通道已经关闭了。
-    var chnew = make(chan int, 4)
-    chnew <- 1
-    chnew <- 2
-    close(chnew)
+	var chnew = make(chan int, 4)
+	chnew <- 1
+	chnew <- 2
+	close(chnew)
 
- 	// for range 遍历通道
-    for value := range chnew {
-        fmt.Println(value)
+	// for range 遍历通道
+	for value := range chnew {
+		fmt.Println(value)
 	}
 	
 	//4.通道写安全
