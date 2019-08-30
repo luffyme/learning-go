@@ -134,13 +134,13 @@ func main() {
 		Width int
 		Height int
 	}
-    var a interface {}
-    var r = Rect{50, 50}
-    a = r
+	var a interface {}
+	var r = Rect{50, 50}
+	a = r
 
-    var rx = a.(Rect)
-    r.Width = 100
-    r.Height = 100
+	var rx = a.(Rect)
+	r.Width = 100
+	r.Height = 100
 	fmt.Println(rx)
 	
 	//6.指向指针的接口变量

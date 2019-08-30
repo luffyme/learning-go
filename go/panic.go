@@ -9,10 +9,10 @@ func main() {
 	//Go 语言提供了 panic 和 recover 全局函数让我们可以抛出异常、捕获异常。
 	//panic抛出
 
-    defer func() {
-        if err := recover(); err != nil {
-            fmt.Println("error catched", err)
-        }
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("error catched", err)
+		}
 	}()
 	panic("this is error")
 
