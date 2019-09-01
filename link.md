@@ -27,7 +27,9 @@ Go学习文档
 [Go夜读](https://reading.developerlearning.cn/)     
 [煎鱼的博客](https://github.com/EDDYCJY/blog)    
 [Go语言圣经](https://books.studygolang.com/gopl-zh/?tdsourcetag=s_pcqq_aiomsg)        
-[Golang从入门到跑路](https://github.com/jiujuan/go-collection?tdsourcetag=s_pcqq_aiomsg)         
+[Golang从入门到跑路](https://github.com/jiujuan/go-collection?tdsourcetag=s_pcqq_aiomsg)      
+[[Go语言爱好者周刊](https://studygolang.com/go/weekly)      
+
 ### 《快学 Go 语言》
 
 * [《快学 Go 语言》第 1 课 —— Hello World](https://mp.weixin.qq.com/s/gbz9-gXZjE05L-8L2lL-UA)
@@ -47,14 +49,6 @@ Go学习文档
 * [《快学 Go 语言》第 14 课 —— 魔术变性指针](https://mp.weixin.qq.com/s/A4r6JGls6ijMLtdSDVWp8w)
 * [《快学 Go 语言》第 15 课 —— 反射](https://mp.weixin.qq.com/s/j_eE_AJp01JCLWO52bPSlw)
 * [《快学 Go 语言》第 16 课 —— 包管理 GOPATH 和 Vendor](https://mp.weixin.qq.com/s/JS9dbanrly21vbFRZiRoIg)
-
-### Go语言爱好者周刊
-
-[Go语言爱好者周刊：第 5 期](https://mp.weixin.qq.com/s/11Jg4EMRuE0vKohMhV_9lw)     
-[Go语言爱好者周刊：第 4 期](https://mp.weixin.qq.com/s/x4isf53w55JohrSjXfDcyg)    
-[Go语言爱好者周刊：第 3 期](https://mp.weixin.qq.com/s/L_Oh9A7_vO9xogVv5AUWag)    
-[Go语言爱好者周刊：第 2 期](https://mp.weixin.qq.com/s/6jiINS8IYTLle4EEtRKfng)    
-[Go语言爱好者周刊：第 1 期](https://mp.weixin.qq.com/s/YWngMSKsSqiBdM8qnj2Iiw)    
 
 ### 第三方库
 
@@ -124,6 +118,7 @@ Go学习文档
 [Golang 新手可能会踩的 50 个坑](https://segmentfault.com/a/1190000013739000)     
 [写给新手的 Go 开发指南](https://liujiacai.net/blog/2019/07/17/hello-golang/?tdsourcetag=s_pcqq_aiomsg)     
 [也许是最简洁版本，一篇文章上手Go语言](https://mp.weixin.qq.com/s/BZZYyPMcVayyPyt5ysVSbw?tdsourcetag=s_pcqq_aiomsg)     
+[读《优雅关闭的 Go Web 服务器》有感](https://mp.weixin.qq.com/s/u0eFiZxpSDuVKXbvDhK2-w)       
 
 ### 进阶
 * [Go代码断行规则](https://gfw.go101.org/article/line-break-rules.html)
