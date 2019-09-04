@@ -111,9 +111,9 @@ type Engine struct {
 
 var _ IRouter = &Engine{}
 
-// New returns a new blank Engine instance without any middleware attached.
-// By default the configuration is:
-// - RedirectTrailingSlash:  true
+// New函数返回一个没有绑定任何中间件的Engine实例
+// 默认配置是
+// - RedirectTrailingSlash:  true 
 // - RedirectFixedPath:      false
 // - HandleMethodNotAllowed: false
 // - ForwardedByClientIP:    true
@@ -243,6 +243,8 @@ func (engine *Engine) rebuild405Handlers() {
 	engine.allNoMethod = engine.combineHandlers(engine.noMethod)
 }
 
+// engine.trees实际上是有多个树组成，这里的每个树都是根据HTTP method进行区分的。
+// 每增加一个路由，就往engine中对应的method的树中增加一个path和handler的关系。
 func (engine *Engine) addRoute(method, path string, handlers HandlersChain) {
 	assert1(path[0] == '/', "path must begin with '/'")
 	assert1(method != "", "HTTP method can not be empty")
@@ -341,7 +343,14 @@ func (engine *Engine) RunFd(fd int) (err error) {
 	return
 }
 
-// ServeHTTP conforms to the http.Handler interface.
+// ServeHTTP实现了http.Handler的接口
+// HTTP请求的入口在这里执行
+// erveHTTP的方法传递的两个参数，一个是Request，一个是ResponseWriter
+// Engine中的ServeHTTP的方法就是要对这两个对象进行读取或者写入操作。
+// 而且这两个对象往往是需要同时存在的，为了避免很多函数都需要写这两个参数，我们不如封装一个结构来把这两个对象放在里面：Context
+// context就是某个请求的上下文结构,这个结构当然是可以不断new的，但是new这个对象的代价可以使用一个对象池进行服用，节省对象频繁创建和销毁的开销。
+// golang中的sync.Pool就是用于这个用途的。
+// 需要注意的是，这里的对象池并不是所谓的固定对象池，而是临时对象池，里面的对象个数不能指定，对象存储时间也不能指定，只是增加了对象复用的概率而已。
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	c := engine.pool.Get().(*Context)
 	c.writermem.reset(w)
@@ -364,6 +373,7 @@ func (engine *Engine) HandleContext(c *Context) {
 	c.index = oldIndexValue
 }
 
+// 进行路由匹配，找到路径对应的执行函数
 func (engine *Engine) handleHTTPRequest(c *Context) {
 	httpMethod := c.Request.Method
 	rPath := c.Request.URL.Path
@@ -384,6 +394,8 @@ func (engine *Engine) handleHTTPRequest(c *Context) {
 		// Find route in tree
 		handlers, params, tsr := root.getValue(rPath, c.Params, unescape)
 		if handlers != nil {
+			// 获取这个路由最终combine的handlers，把它放在全局的context中，然后通过调用context.Next()来进行递归调用这个handlers。
+			// 当然在中间件里面需要记得调用context.Next() 把控制权还给Context
 			c.handlers = handlers
 			c.Params = params
 			c.Next()

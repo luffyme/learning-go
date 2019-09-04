@@ -43,6 +43,7 @@ type ResponseWriter interface {
 	Pusher() http.Pusher
 }
 
+// 组合了http的ResponseWriter，因为可能要封装框架的一些内容， 所以在http.ResponseWriter的基础上重新封装一层ResponseWriter
 type responseWriter struct {
 	http.ResponseWriter
 	size   int
