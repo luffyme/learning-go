@@ -29,7 +29,8 @@ Go学习文档
 [Go语言圣经](https://books.studygolang.com/gopl-zh/?tdsourcetag=s_pcqq_aiomsg)        
 [Golang从入门到跑路](https://github.com/jiujuan/go-collection?tdsourcetag=s_pcqq_aiomsg)      
 [[Go语言爱好者周刊](https://studygolang.com/go/weekly)      
-
+[qcrao - 码农桃花源](https://qcrao.com/archives/)       
+ 
 ### 《快学 Go 语言》
 
 * [《快学 Go 语言》第 1 课 —— Hello World](https://mp.weixin.qq.com/s/gbz9-gXZjE05L-8L2lL-UA)
@@ -125,11 +126,13 @@ Go学习文档
 [Go 语言内存管理（一）：系统内存管理](https://www.jianshu.com/p/1ffde2de153f)           
 [Go 语言内存管理（二）：Go 内存管理](https://www.jianshu.com/p/7405b4e11ee2)        
 [Go 语言内存管理（三）：逃逸分析](https://www.jianshu.com/p/518466b4ee96)        
-Go 语言内存管理（四）：垃圾回收](https://www.jianshu.com/p/0083a90a8f7e)         
+[Go 语言内存管理（四）：垃圾回收](https://www.jianshu.com/p/0083a90a8f7e)         
 [Go内存泄漏？不是那么简单!](https://colobu.com/2019/08/28/go-memory-leak-i-dont-think-so/)         
 [[译]Go性能分析工具工具和手段](https://colobu.com/2019/05/22/profilinggo/)          
 [go语言里的select监听到底是怎么工作的?](https://www.zhihu.com/question/340342212/answer/795661248)        
 [poloxue-go](https://zhuanlan.zhihu.com/poloxue-go)        
+[Go1到Go1.10的语法变迁](https://mp.weixin.qq.com/s/_ihUzJ7rOVQJCkXhqm7ccA)     
+[谈谈Go语言字符串](https://mp.weixin.qq.com/s/pjv1FNl0bxl3dwk6hYhzBg)    
 
 ### 进阶
 * [Go代码断行规则](https://gfw.go101.org/article/line-break-rules.html)
