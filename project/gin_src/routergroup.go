@@ -70,7 +70,9 @@ func (group *RouterGroup) BasePath() string {
 }
 
 func (group *RouterGroup) handle(httpMethod, relativePath string, handlers HandlersChain) IRoutes {
+	//计算绝对路径
 	absolutePath := group.calculateAbsolutePath(relativePath)
+	//合并group.Handlers（中间件）里面的handlers，得到新的handlers
 	handlers = group.combineHandlers(handlers)
 	group.engine.addRoute(httpMethod, absolutePath, handlers)
 	return group.returnObj()

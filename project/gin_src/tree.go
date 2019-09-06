@@ -62,6 +62,7 @@ func min(a, b int) int {
 	return b
 }
 
+// 计算路径中有多少参数，其实就是冒号与星号的个数。
 func countParams(path string) uint8 {
 	var n uint
 	for i := 0; i < len(path); i++ {
@@ -86,14 +87,15 @@ const (
 )
 
 type node struct {
-	path      string
-	indices   string
-	children  []*node
-	handlers  HandlersChain
+	path      string 			//当前节点对应的路径中的字符串
+	indices   string 			//子节点索引，当子节点为非参数类型，即本节点的wildChild为false时，会将每个子节点的首字母放在该索引数组。说是数组，实际上是个string。
+	children  []*node   		//子节点
+	handlers  HandlersChain  	//该路径对应要执行的的函数
 	priority  uint32
-	nType     nodeType
+	nType     nodeType 			//当前节点类型，有四个枚举值: 分别为 static/root/param/catchAll。
+								//static 非根节点的普通字符串节点, root 根节点, param 参数节点，例如 :id, catchAll 通配符节点，例如 *anyway
 	maxParams uint8
-	wildChild bool
+	wildChild bool  			//子节点是否为参数节点，即 wildcard node，或者说 :id 这种类型的节点
 }
 
 // increments priority of the given child and reorders if necessary.
@@ -126,6 +128,7 @@ func (n *node) incrementChildPrio(pos int) int {
 func (n *node) addRoute(path string, handlers HandlersChain) {
 	fullPath := path
 	n.priority++
+	//计算路径中有多少参数
 	numParams := countParams(path)
 
 	// non-empty tree
@@ -247,6 +250,7 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 			return
 		}
 	} else { // Empty tree
+		//如果节点为空，将插入的节点类型定义为root节点，就是根节点
 		n.insertChild(numParams, path, fullPath, handlers)
 		n.nType = root
 	}
@@ -263,6 +267,8 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 		}
 
 		// find wildcard end (either '/' or path end)
+		//取出*或者:后面的单词，也就是从*或者:后面的字符开始，到/之前的单词
+		//如果在/之前还有*或者:，说明路径有问题直接panic
 		end := i + 1
 		for end < max && path[end] != '/' {
 			switch path[end] {
@@ -283,29 +289,35 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 		}
 
 		// check if the wildcard has a name
+		// 如果end-i < 2代表*或者:后面只有/或者没有任何单词。说明参数名有问题。
 		if end-i < 2 {
 			panic("wildcards must be named with a non-empty name in path '" + fullPath + "'")
 		}
 
+		// 如果刚开始匹配出来的字符为:
 		if c == ':' { // param
 			// split path at the beginning of the wildcard
+			// 在有参数的地方分割路径
 			if i > 0 {
+				// 跟路径不包含:
 				n.path = path[offset:i]
 				offset = i
 			}
 
+			// 新建参数节点，添加到跟节点的children中
 			child := &node{
 				nType:     param,
 				maxParams: numParams,
 			}
 			n.children = []*node{child}
-			n.wildChild = true
-			n = child
+			n.wildChild = true      		//代表跟节点的子节点是参数节点
+			n = child 						//n从根节点变更为该参数节点。以便于后续添加子节点
 			n.priority++
-			numParams--
+			numParams--         
 
 			// if the path doesn't end with the wildcard, then there
 			// will be another non-wildcard subpath starting with '/'
+			//如果参数节点之后并没有结束，肯定会有另外一个以/开始的非参数节点。
 			if end < max {
 				n.path = path[offset:end]
 				offset = end
