@@ -256,6 +256,9 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 	}
 }
 
+
+//path = /tree/:id/dddddd/:name/
+
 func (n *node) insertChild(numParams uint8, path string, fullPath string, handlers HandlersChain) {
 	var offset int // already handled bytes of the path
 
@@ -319,6 +322,7 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 			// will be another non-wildcard subpath starting with '/'
 			//如果参数节点之后并没有结束，肯定会有另外一个以/开始的非参数节点。
 			if end < max {
+				//设置参数节点的path
 				n.path = path[offset:end]
 				offset = end
 
@@ -331,15 +335,17 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 			}
 
 		} else { // catchAll
+			//catchAll路由必须在路径的结尾
 			if end != max || numParams > 1 {
 				panic("catch-all routes are only allowed at the end of the path in path '" + fullPath + "'")
 			}
 
+			//路径结尾不能为/
 			if len(n.path) > 0 && n.path[len(n.path)-1] == '/' {
 				panic("catch-all conflicts with existing handle for the path segment root in path '" + fullPath + "'")
 			}
 
-			// currently fixed width 1 for '/'
+			// catchAll路由前面的字符必须为/
 			i--
 			if path[i] != '/' {
 				panic("no / before catch-all in path '" + fullPath + "'")
