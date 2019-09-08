@@ -34,6 +34,7 @@ Go学习文档
 * [qcrao - 码农桃花源](https://qcrao.com/archives/)   
 * [Go语言爱好者周刊](https://studygolang.com/go/weekly)  
 * [煎鱼的博客](https://github.com/EDDYCJY/blog)    
+* [Golang之旅](https://zhuanlan.zhihu.com/poloxue-go) 
 
 ### 《快学 Go 语言》
 
