@@ -148,3 +148,12 @@ Go学习文档
 * [粉墨登场 —— main goroutine 的诞生（三）](https://mp.weixin.qq.com/s?__biz=MjM5MDUwNTQwMQ==&mid=2257483967&idx=1&sn=209af607d8a02ed107163a3c444f262c&chksm=a5391869924e917f8ef1faeeb665009da2b961648c3ce8dc99c0428d29fdb80c767c85508af0&mpshare=1&scene=23&srcid=&sharer_sharetime=1567563612323&sharer_shareid=8f631567acf15ee08bc61ef21e538ba3#rd)
 * [偷天换日 —— g0 栈和用户栈如何完成切换？（四）](https://mp.weixin.qq.com/s?__biz=MjM5MDUwNTQwMQ==&mid=2257483967&idx=2&sn=10c2fce478a6493bc2cf3fcd48d18734&chksm=a5391869924e917f6afbb283ba567a6eabca896d21d2d486fda535378a1be242a176402b8ae8&mpshare=1&scene=23&srcid=&sharer_sharetime=1567563641466&sharer_shareid=8f631567acf15ee08bc61ef21e538ba3#rd)
 * [新官上任 —— Go sheduler 开始调度循环（五）](https://mp.weixin.qq.com/s?__biz=MjM5MDUwNTQwMQ==&mid=2257483967&idx=3&sn=650f36e6c4b5668b27d69f73598da970&chksm=a5391869924e917f401fd88f5be15897a37815a3138ed62f2624474be3e165e9f0d141394b1b&mpshare=1&scene=23&srcid=&sharer_sharetime=1567563653579&sharer_shareid=8f631567acf15ee08bc61ef21e538ba3#rd)
+
+### Gin
+
+* [httprouter 源码分析](https://learnku.com/articles/27591?tdsourcetag=s_pcqq_aiomsg)
+* [httprouter框架 (Gin使用的路由框架)](https://www.cnblogs.com/foxy/p/9469401.html)
+* [Gin框架源码解析](https://www.cnblogs.com/yjf512/p/9670990.html)
+* [gin框架使用注意事项](https://www.cnblogs.com/yjf512/p/10570922.html)
+* [gin-gonic/gin](https://github.com/gin-gonic/gin)
+* [goalng框架Gin中间件的c.Next()有什么作用？](https://segmentfault.com/q/1010000020256918)
