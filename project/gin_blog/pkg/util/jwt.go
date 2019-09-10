@@ -15,8 +15,8 @@ type Claims struct {
 }
 
 func GenerateToken(username, password string) (string, error) {
-	nowTime = time.Now()
-	expireTime = nowTime.Add(3 * time.Hour)
+	nowTime := time.Now()
+	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
 		EncodeMD5(username),
