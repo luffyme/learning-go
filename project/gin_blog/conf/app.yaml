@@ -1,0 +1,11 @@
+upload:
+    imageUploadPath: "runtime/upload/images/"
+    imageMaxSize: 5
+    imageAllowExts: 
+        - ".jpg"
+        - ".jpeg"
+        - ".png"
+mysql:
+    user: "root"
+    pass: "123456"
+    host: "127.0.0.1"

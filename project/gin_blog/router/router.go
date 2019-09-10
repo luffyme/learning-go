@@ -2,18 +2,16 @@ package router
 
 import (
 	"gin_blog/service"
+	"gin_blog/middleware/jwt"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Add(r *gin.Engine) *gin.Engine {
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
-	r.GET("/auth", service.Auth.GetAuth)
+	r.GET("/ping", service.Ping)
+	r.GET("/auth", service.GetAuth)
+	r.GET("/upload", service.UploadImage)
+	r.GET("/user/info", jwt.JWT(), service.User.GetUserInfo)
 
 	return r
 }
