@@ -87,15 +87,16 @@ const (
 )
 
 type node struct {
-	path      string 			//当前节点对应的路径中的字符串
-	indices   string 			//子节点索引，当子节点为非参数类型，即本节点的wildChild为false时，会将每个子节点的首字母放在该索引数组。说是数组，实际上是个string。
-	children  []*node   		//子节点
-	handlers  HandlersChain  	//该路径对应要执行的的函数
-	priority  uint32
-	nType     nodeType 			//当前节点类型，有四个枚举值: 分别为 static/root/param/catchAll。
-								//static 非根节点的普通字符串节点, root 根节点, param 参数节点，例如 :id, catchAll 通配符节点，例如 *anyway
-	maxParams uint8
-	wildChild bool  			//子节点是否为参数节点，即 wildcard node，或者说 :id 这种类型的节点
+	path      string 			// 当前节点对应的路径中的字符串
+	indices   string 			// 子节点索引，当子节点为非参数类型，即本节点的wildChild为false时，会将每个子节点的首字母放在该索引数组。说是数组，实际上是个string。
+	children  []*node   		// 当前节点的所有直接子节点
+	handlers  HandlersChain  	// 该路径对应要执行的的函数
+	priority  uint32 			// 优先级，查找的时候会用到,表示当前节点加上所有子节点的数目
+	nType     nodeType 			// 当前节点类型，有四个枚举值: 分别为 static/root/param/catchAll。
+								// static 非根节点的普通字符串节点, root 根节点, param 参数节点，例如 :id, catchAll 通配符节点，例如 *anyway
+	maxParams uint8 			// path 中的参数最大数量，最大只能保存 255 个（超过这个的情况貌似太难见到了）
+   			 					// 这里是一个非负的 8 进制数字，最大也只能是 255 了
+	wildChild bool  			// 判断当前节点路径是不是含有参数的节点
 }
 
 // increments priority of the given child and reorders if necessary.
@@ -127,58 +128,84 @@ func (n *node) incrementChildPrio(pos int) int {
 // addRoute添加节点
 func (n *node) addRoute(path string, handlers HandlersChain) {
 	fullPath := path
+	// 请求到这个方法，就给当前节点的权重 + 1
 	n.priority++
-	//计算路径中有多少参数
+	// 计算传入的路径参数的数量
 	numParams := countParams(path)
 
-	// non-empty tree
+	// 如果树不是空的
+	// 判断的条件是当前节点的 path 的字符串长度和子节点的数量全部都大于 0
+	// 就是说如果当前节点是一个空的节点，或者当前的节点是一个叶子节点，就直接
+    // 进入 else 在当前节点下面添加子节点
 	if len(n.path) > 0 || len(n.children) > 0 {
+	// 定义一个 lable ，循环里面可以直接 break 到这里，适合这种嵌套的比较深的
 	walk:
 		for {
-			// Update maxParams of the current node
+			// 如果传入的节点的最大参数的数量大于当前节点记录的数量，替换
+			// 更新当前node的最大参数个数
 			if numParams > n.maxParams {
 				n.maxParams = numParams
 			}
 
-			// Find the longest common prefix.
-			// This also implies that the common prefix contains no ':' or '*'
-			// since the existing key can't contain those chars.
+			// 找到最长公共前缀
+			// 公共前缀不包含 ":" 或 "*"
 			i := 0
+			// 将最大值设置成长度较小的路径的长度
 			max := min(len(path), len(n.path))
+			// 循环，计算出当前节点和添加的节点共同前缀的长度
 			for i < max && path[i] == n.path[i] {
 				i++
 			}
 
-			// Split edge
+			// 如果相同前缀的长度比当前节点保存的 path 短
+            // 比如当前节点现在的 path 是 sup ，添加的节点的 path 是 search
+            // 它们相同的前缀就变成了 s ， s 比 sup 要短，符合 if 的条件，要做处理
 			if i < len(n.path) {
+				// 将当前节点的属性定义到一个子节点中，没有注释的属性不变，保持原样
 				child := node{
-					path:      n.path[i:],
+					path:      n.path[i:],  		// path 是当前节点的 path 去除公共前缀长度的部分
 					wildChild: n.wildChild,
 					indices:   n.indices,
 					children:  n.children,
 					handlers:  n.handlers,
-					priority:  n.priority - 1,
+					priority:  n.priority - 1, 		 // 权重 -1 
 				}
 
-				// Update maxParams (max of all children)
+				// 遍历当前节点的所有子节点（当前节点变成子节点之后的节点），
+                // 如果最大参数数量大于当前节点的数量，更新
 				for i := range child.children {
 					if child.children[i].maxParams > child.maxParams {
 						child.maxParams = child.children[i].maxParams
 					}
 				}
 
+				// 在当前节点的子节点定义为当前节点转换后的子节点
 				n.children = []*node{&child}
-				// []byte for proper unicode char conversion, see #65
+				// 获取子节点的首字母,因为上面分割的时候是从 i 的位置开始分割
+                // 所以 n.path[i] 可以去除子节点的首字母，理论上去 child.path[0] 也是可以的
+                // 这里的 n.path[i] 取出来的是一个 uint8 类型的数字（代表字符），
+                // 先用 []byte 包装一下数字再转换成字符串格式
 				n.indices = string([]byte{n.path[i]})
+				// 更新当前节点的 path 为新的公共前缀
 				n.path = path[:i]
+				// 将 handle 设置为 nil
 				n.handlers = nil
+				// 肯定没有参数了，已经变成了一个没有 handle 的节点了
 				n.wildChild = false
 			}
 
-			// Make new node a child of this node
+			// 将新的节点添加到此节点的子节点， 这里是新添加节点的子节点
 			if i < len(path) {
+				// 截取掉公共部分，剩余的是子节点
 				path = path[i:]
 
+				// 如果当前路径有参数
+                // 如果进入了上面 if i < len(n.path) 这个条件，这里就不会成立了
+                // 因为上一个 if 中将 n.wildChild 重新定义成了 false 
+                // 什么情况会进入到这里呢 ? 
+                // 1. 上面的 if 不生效，也就是说不会有新的公共前缀， n.path = i 的时候
+                // 2. 当前节点的 path 是一个参数节点就是像这种的 :post
+                // 就是定义路由时候是这种形式的： blog/:post/update
 				if n.wildChild {
 					n = n.children[0]
 					n.priority++
@@ -257,25 +284,28 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 }
 
 
-//path = /tree/:id/dddddd/:name/
-
+// numParams 参数个数
+// path 插入的子节点的路径
+// fullPath 完整路径，就是注册路由时候的路径，没有被处理过的
+// 注册路由对应的 handle 函数
 func (n *node) insertChild(numParams uint8, path string, fullPath string, handlers HandlersChain) {
-	var offset int // already handled bytes of the path
+	var offset int // 已经处理过的路径的所有字节数
 
-	// find prefix until first wildcard (beginning with ':' or '*')
+	// 查找前缀，知道第一个通配符（ 以 ':' 或 '*' 开头
+    // 就是要将 path 遍历，提取出参数
+    // 只要不是通配符开头的就不做处理，证明这个路由是没有参数的路由
 	for i, max := 0, len(path); numParams > 0; i++ {
 		c := path[i]
+		// 如果不是 : 或 * 跳过本次循环，不做任何处理
 		if c != ':' && c != '*' {
 			continue
 		}
 
-		// find wildcard end (either '/' or path end)
-		//取出*或者:后面的单词，也就是从*或者:后面的字符开始，到/之前的单词
-		//如果在/之前还有*或者:，说明路径有问题直接panic
+		// 查询通配符后面的字符，直到查到 '/' 或者结束
 		end := i + 1
 		for end < max && path[end] != '/' {
 			switch path[end] {
-			// the wildcard name must not contain ':' and '*'
+			// 通配符后面的名称不能包含 : 或 * ， 如 ::name 或 :*name 不允许定义
 			case ':', '*':
 				panic("only one wildcard per path segment is allowed, has: '" +
 					path[i:] + "' in path '" + fullPath + "'")
@@ -284,43 +314,52 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 			}
 		}
 
-		// check if this Node existing children which would be
-		// unreachable if we insert the wildcard here
+		// 检查通配符所在的位置，是否已经有子节点，如果有，就不能再插入
+        // 例如： 已经定义了 /hello/name ， 就不能再定义 /hello/:param
 		if len(n.children) > 0 {
 			panic("wildcard route '" + path[i:end] +
 				"' conflicts with existing children in path '" + fullPath + "'")
 		}
 
-		// check if the wildcard has a name
-		// 如果end-i < 2代表*或者:后面只有/或者没有任何单词。说明参数名有问题。
+		// 检查通配符是否有一个名字
+        // 上面定义 end = i+1 ， 后面的 for 又执行了 ++ 操作，所以通配符 : 或 * 后面最少
+        // 要有一个字符, 如： :a 或 :name ， :a 的时候 end 就是 i+2
+        // 所以如果 end - i < 2 ，就是通配符后面没有对应的名称， 就会 panic
 		if end-i < 2 {
 			panic("wildcards must be named with a non-empty name in path '" + fullPath + "'")
 		}
 
-		// 如果刚开始匹配出来的字符为:
+		// 如果 c 是 : 通配符的时候
 		if c == ':' { // param
-			// split path at the beginning of the wildcard
-			// 在有参数的地方分割路径
+			// 从 offset 的位置，到查询到通配符的位置分割 path
+            // 并把分割出来的路径定义到节点的 path 属性
 			if i > 0 {
 				// 跟路径不包含:
 				n.path = path[offset:i]
+				// 开始的位置变成了通配符所在的位置
 				offset = i
 			}
 
-			// 新建参数节点，添加到跟节点的children中
+			// 将参数部分定义成一个子节点
 			child := &node{
 				nType:     param,
 				maxParams: numParams,
 			}
+			// 用新定义的子节点初始化一个 children 属性
 			n.children = []*node{child}
-			n.wildChild = true      		//代表跟节点的子节点是参数节点
-			n = child 						//n从根节点变更为该参数节点。以便于后续添加子节点
+			n.wildChild = true      		// 标记上当前这个节点是一个包含参数的节点的节点
+			// 将新创建的节点定义为当前节点，这个要想一下，到这里这种操作已经有不少了
+            // 因为一直都是指针操作，修改都是指针的引用，所以定义好的层级关系不会被改变
+			n = child 			
+			// 新的节点权重 +1			
 			n.priority++
+			// 最大参数个数 - 1
 			numParams--         
 
 			// if the path doesn't end with the wildcard, then there
 			// will be another non-wildcard subpath starting with '/'
-			//如果参数节点之后并没有结束，肯定会有另外一个以/开始的非参数节点。
+			// 这个 end 有可能是结束或者下一个 / 的位置
+            // 如果小于路径的最大长度，代表还包含子路径（也就是说后面还有子节点）
 			if end < max {
 				//设置参数节点的path
 				n.path = path[offset:end]
@@ -335,7 +374,11 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 			}
 
 		} else { // catchAll
-			//catchAll路由必须在路径的结尾
+			// 这里的意思是， * 匹配的路径只允许定义在路由的最后一部分 
+            // 比如 : /hello/*world 是允许的， /hello/*world/more 这种就会 painc
+            // 这种路径就是会将 hello/ 后面的所有内容变成 world 的变量
+            // 比如地址栏输入： /hello/one/two/more ，获取到的参数 world = one/twq/more
+            // 不会再将后面的 / 作为路径处理了
 			if end != max || numParams > 1 {
 				panic("catch-all routes are only allowed at the end of the path in path '" + fullPath + "'")
 			}
@@ -491,12 +534,14 @@ walk: // Outer loop for walking the tree
 				}
 			}
 		} else if path == n.path {
-			// We should have reached the node containing the handle.
-			// Check if this node has a handle registered.
+			//如果当前path与当前结点的path相同
+
+			//如果当前节点的handlers，直接返回
 			if handlers = n.handlers; handlers != nil {
 				return
 			}
 
+			//如果当前path=='/' 并且当前节点有参数子节点，并且当前节点不是根节点 /:id
 			if path == "/" && n.wildChild && n.nType != root {
 				tsr = true
 				return

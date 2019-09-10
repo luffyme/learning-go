@@ -54,22 +54,16 @@ type RoutesInfo []RouteInfo
 type Engine struct {
 	RouterGroup
 
-	// Enables automatic redirection if the current route can't be matched but a
-	// handler for the path with (without) the trailing slash exists.
-	// For example if /foo/ is requested but a route only exists for /foo, the
-	// client is redirected to /foo with http status code 301 for GET requests
-	// and 307 for all other request methods.
+	// 这个参数是否自动处理当访问路径最后带的 /，一般为 true 就行。
+	// 例如： 当访问 /foo/ 时， 此时没有定义 /foo/ 这个路由，但是定义了
+	// /foo 这个路由，就对自动将 /foo/ 重定向到 /foo (GET 请求
+    // 是 http 301 重定向，其他方式的请求是 http 307 重定向）。
 	RedirectTrailingSlash bool
 
-	// If enabled, the router tries to fix the current request path, if no
-	// handle is registered for it.
-	// First superfluous path elements like ../ or // are removed.
-	// Afterwards the router does a case-insensitive lookup of the cleaned path.
-	// If a handle can be found for this route, the router makes a redirection
-	// to the corrected path with status code 301 for GET requests and 307 for
-	// all other request methods.
-	// For example /FOO and /..//Foo could be redirected to /foo.
-	// RedirectTrailingSlash is independent of this option.
+	// 是否自动修正路径， 如果路由没有找到时，Router 会自动尝试修复。
+    // 首先删除多余的路径，像 ../ 或者 // 会被删除。
+    // 然后将清理过的路径再不区分大小写查找，如果能够找到对应的路由， 将请求重定向到
+    // 这个路由上 ( GET 是 301， 其他是 307 ) 。
 	RedirectFixedPath bool
 
 	// If enabled, the router checks if another method is allowed for the
@@ -78,6 +72,7 @@ type Engine struct {
 	// and HTTP status code 405.
 	// If no other Method is allowed, the request is delegated to the NotFound
 	// handler.
+	// 如果当前无法匹配, 那么检查是否有其他方法能match当前的路由
 	HandleMethodNotAllowed bool
 	ForwardedByClientIP    bool
 
@@ -251,11 +246,15 @@ func (engine *Engine) addRoute(method, path string, handlers HandlersChain) {
 	assert1(len(handlers) > 0, "there must be at least one handler")
 
 	debugPrintRoute(method, path, handlers)
+	// 检查有没有对应method集合的路由
 	root := engine.trees.get(method)
 	if root == nil {
+		// 没有 创建一个新的路由节点
 		root = new(node)
+		// 添加该method的路由tree到当前的路由到路由树里
 		engine.trees = append(engine.trees, methodTree{method: method, root: root})
 	}
+	// 添加路由
 	root.addRoute(path, handlers)
 }
 
@@ -357,8 +356,11 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	c.Request = req
 	c.reset()
 
+	// 实际处理请求的地方
+	// 传递当前的上下文
 	engine.handleHTTPRequest(c)
 
+	// 归还上下文实例
 	engine.pool.Put(c)
 }
 
@@ -387,18 +389,24 @@ func (engine *Engine) handleHTTPRequest(c *Context) {
 	// Find root of the tree for the given HTTP method
 	t := engine.trees
 	for i, tl := 0, len(t); i < tl; i++ {
+		// 这里寻找当前请求method的路由树节点
 		if t[i].method != httpMethod {
 			continue
 		}
+		// 找到路由根节点
 		root := t[i].root
-		// Find route in tree
+		// 从根节点开始查找，找到路径对应的函数
 		handlers, params, tsr := root.getValue(rPath, c.Params, unescape)
 		if handlers != nil {
 			// 获取这个路由最终combine的handlers，把它放在全局的context中，然后通过调用context.Next()来进行递归调用这个handlers。
 			// 当然在中间件里面需要记得调用context.Next() 把控制权还给Context
+			// 把找到的handles赋值给上下文
 			c.handlers = handlers
+			// 把找到的入参赋值给上下文
 			c.Params = params
+			// 开始执行handle
 			c.Next()
+			// 处理响应内容
 			c.writermem.WriteHeaderNow()
 			return
 		}
