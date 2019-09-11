@@ -140,6 +140,7 @@ Go学习文档
 [谈谈Go语言字符串](https://mp.weixin.qq.com/s/pjv1FNl0bxl3dwk6hYhzBg)    
 
 ### 进阶
+* [Go Modules 不完全教程](https://mp.weixin.qq.com/s/v-NdYEJBgKbiKsdoQaRsQg)
 * [Go代码断行规则](https://gfw.go101.org/article/line-break-rules.html)
 * [Go中的nil](https://gfw.go101.org/article/nil.html)
 * [GCTT出品 | Go 中的 gRPC 简介](https://mp.weixin.qq.com/s?__biz=MzAxMTA4Njc0OQ==&mid=2651437222&idx=1&sn=7acf20b316dce8c031d818d4ece808d5&chksm=80bb6654b7ccef4219594fe3b9cb61528938d8870fc069be3a8d219a63d8070402da3e6eb0f2&mpshare=1&scene=23&srcid=&sharer_sharetime=1567477424245&sharer_shareid=8f631567acf15ee08bc61ef21e538ba3#rd)、
