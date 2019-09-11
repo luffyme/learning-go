@@ -11,7 +11,7 @@ func Add(r *gin.Engine) *gin.Engine {
 	r.GET("/ping", service.Ping)
 	r.GET("/auth", service.GetAuth)
 	r.GET("/upload", service.UploadImage)
-	r.GET("/user/info", jwt.JWT(), service.User.GetUserInfo)
+	r.GET("/user/:id", jwt.JWT(), service.User.GetUser)
 
 	return r
 }

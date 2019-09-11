@@ -1,11 +1,16 @@
 package main
 
 import (
+	"gin_blog/models"
 	"gin_blog/router"
-	
+
+	_ "github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
-   	_ "github.com/davecgh/go-spew/spew"
-) 
+)
+
+func init() {
+	models.Setup()
+}
 
 func main() {
 	r := gin.Default()
