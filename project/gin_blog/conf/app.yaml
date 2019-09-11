@@ -9,3 +9,4 @@ mysql:
     user: "root"
     pass: "123456"
     host: "127.0.0.1"
+    db: "gin_blog"

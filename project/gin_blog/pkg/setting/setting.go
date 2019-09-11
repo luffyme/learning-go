@@ -8,7 +8,8 @@ import (
 type mysql struct {
 	User string `yaml:"user"`
 	Pass string `yaml:"pass"`
-	Host string `yaml:"host"`
+    Host string `yaml:"host"`
+    DB string `yaml:"db"`
 }
 
 type upload struct {
