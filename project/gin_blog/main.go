@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+	"io"
+
 	"gin_blog/models"
 	"gin_blog/router"
 
@@ -13,6 +16,10 @@ func init() {
 }
 
 func main() {
+	//将日志记录在文件中
+	f, _ := os.Create("logs/access.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
 	r := gin.Default()
 
 	r.GET("/test", func(c *gin.Context) {
