@@ -37,6 +37,7 @@ Go学习文档
 * [Go语言爱好者周刊](https://studygolang.com/go/weekly)  
 * [煎鱼的博客](https://github.com/EDDYCJY/blog)    
 * [Golang之旅](https://zhuanlan.zhihu.com/poloxue-go) 
+* [收集Go语言相关的公众号、博客，国内Go开源项目 以及这些布道者们](https://github.com/studygolang/gophers)
 
 ### 《快学 Go 语言》
 
