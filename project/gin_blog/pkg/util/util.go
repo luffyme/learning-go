@@ -31,3 +31,7 @@ func Output(c *gin.Context, httpCode int, errCode int, data interface{}) {
 	})
 	return
 }
+
+func ErrorLog() {
+	
+}
