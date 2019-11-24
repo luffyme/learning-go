@@ -14,6 +14,7 @@ func main() {
 	nowTime := time.Now()
 	fmt.Println(nowTime.Unix())
 	fmt.Println(nowTime.UnixNano())
+	fmt.Println(nowTime.Format("2006-01-02 15:04:05")
 
 	//各种时间
 	now := time.Now()
