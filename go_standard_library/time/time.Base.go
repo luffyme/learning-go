@@ -6,9 +6,14 @@ import (
 )
 
 func main() {
-	//单位
-	//time.Millisecond
-	//time.Second
+	/*
+		time.Nanosecond
+		time.Microsecond
+		time.Millisecond
+		time.Second
+		time.Minute
+		time.Hour
+	*/
 
 	//当前时间戳
 	nowTime := time.Now()
@@ -36,6 +41,12 @@ func main() {
 	fmt.Println(now.Weekday())
 	fmt.Println(now.Format("2006-01-02"))
 	fmt.Println(now.Format("2006-01-02 15:04:05"))
+	fmt.Println(now.Format(time.RFC3339)) 
+
+	//年月日
+	fmt.Println("年月日:")
+	year, month, day := now.Date()
+	fmt.Println(year, month, day)
 
 	//睡眠
 	fmt.Println("开始睡眠:")
