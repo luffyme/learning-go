@@ -25,6 +25,12 @@ func main() {
 	fmt.Println("格式化:")
 	t,_ := time.ParseInLocation("2006-01-02 15:04:05", "2019-08-11 11:50:35", time.Local)
 	fmt.Println(t.Unix())
+	fmt.Println(t.Truncate(1 * time.Hour).Unix())
+	fmt.Println(t.Truncate(1 * time.Hour)) 				// 整点（向下取整）
+	fmt.Println(t.Round(1 * time.Hour))					// 整点（最接近）
+	fmt.Println(t.Truncate(1 * time.Minute))			// 整分（向下取整）
+	fmt.Println(t.Round(1 * time.Minute)) 				// 整分（最接近）
+
 
 	//各种时间
 	now := time.Now()
