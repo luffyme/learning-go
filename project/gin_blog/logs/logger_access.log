@@ -2,3 +2,10 @@ time="2019-11-25T21:01:25+08:00" level=info msg="A group of walrus emerges from 
 time="2019-11-25T23:38:23+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=80.82.70.187 latencyTime="1.276µs" reqMethod=GET reqUri="http://www.baidu.com/cache/global/img/gs.gif" statusCode=404
 time="2019-11-26T05:59:04+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=185.216.140.186 latencyTime=971ns reqMethod=GET reqUri="http://www.baidu.com/cache/global/img/gs.gif" statusCode=404
 time="2019-11-26T09:26:00+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=80.82.70.187 latencyTime="1.085µs" reqMethod=GET reqUri="http://www.baidu.com/cache/global/img/gs.gif" statusCode=404
+time="2019-11-29T00:39:39+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000284968s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:40:51+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000324485s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:42:00+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000276701s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:43:15+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000199667s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:43:49+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000203927s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:45:19+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.00019284s reqMethod=GET reqUri=/sleep statusCode=200
+time="2019-11-29T00:48:20+08:00" level=info msg="A group of walrus emerges from the ocean" clientIP=148.70.15.82 latencyTime=1m0.000848445s reqMethod=GET reqUri=/sleep statusCode=200

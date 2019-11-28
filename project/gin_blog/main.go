@@ -5,9 +5,9 @@ import (
 	"io"
 	"fmt"
 	"time"
-	"context"
-	"os/signal"
-	"net/http"
+	_ "context"
+	_ "os/signal"
+	_ "net/http"
 	_ "net/http/pprof"
 
 	"gin_blog/models"
@@ -16,6 +16,7 @@ import (
 
 	_ "github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
+	"github.com/fvbock/endless"
 )
 
 func init() {
@@ -30,12 +31,27 @@ func main() {
 	r := gin.Default()
 	r.Use(middleware.LoggerToFile())
 
+	router.Add(r)
+
 	r.GET("/test", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
 
+	r.GET("/sleep", func(c *gin.Context) {
+		fmt.Println("sleep fmt")
+
+		time.Sleep(60 * time.Second)
+
+		c.JSON(200, gin.H{
+			"message": "sleep fmt",
+		})
+	})
+
+	endless.ListenAndServe(":8000", r)
+
+	/*
 	router.Add(r)
 	srv := &http.Server{
 		Addr:           ":8000",
@@ -68,4 +84,5 @@ func main() {
 		fmt.Println("Server Shutdown:", err);
 	}
 	fmt.Println("Server Exit");
+	*/
 }

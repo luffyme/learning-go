@@ -4,7 +4,6 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /test                     --> main.main.func1 (4 handlers)
 [GIN-debug] GET    /debug/pprof/             --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
 [GIN-debug] GET    /debug/pprof/cmdline      --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
 [GIN-debug] GET    /debug/pprof/profile      --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
@@ -17,11 +16,9 @@
 [GIN-debug] GET    /debug/pprof/heap         --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
 [GIN-debug] GET    /debug/pprof/mutex        --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
 [GIN-debug] GET    /debug/pprof/threadcreate --> github.com/gin-contrib/pprof.pprofHandler.func1 (4 handlers)
-[GIN-debug] GET    /ping                     --> gin_blog/service.Ping (4 handlers)
-[GIN-debug] GET    /auth                     --> gin_blog/service.GetAuth (4 handlers)
-[GIN-debug] GET    /upload                   --> gin_blog/service.UploadImage (4 handlers)
-[GIN-debug] GET    /user/:id                 --> gin_blog/service.(*user).GetUser-fm (5 handlers)
-[GIN] 2019/11/25 - 21:01:25 | 200 |    1.438049ms |   119.28.159.86 | GET      /debug/pprof/heap
-[GIN] 2019/11/25 - 23:38:23 | 404 |     133.823µs |    80.82.70.187 | GET      /cache/global/img/gs.gif
-[GIN] 2019/11/26 - 05:59:04 | 404 |     144.725µs | 185.216.140.186 | GET      /cache/global/img/gs.gif
-[GIN] 2019/11/26 - 09:26:00 | 404 |      121.27µs |    80.82.70.187 | GET      /cache/global/img/gs.gif
+[GIN-debug] GET    /ping                     --> gin_blog/service.Ping (5 handlers)
+[GIN-debug] GET    /auth                     --> gin_blog/service.GetAuth (5 handlers)
+[GIN-debug] GET    /upload                   --> gin_blog/service.UploadImage (5 handlers)
+[GIN-debug] GET    /user/:id                 --> gin_blog/service.(*user).GetUser-fm (6 handlers)
+[GIN-debug] GET    /test                     --> main.main.func1 (5 handlers)
+[GIN-debug] GET    /sleep                    --> main.main.func2 (5 handlers)
