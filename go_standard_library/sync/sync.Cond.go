@@ -15,7 +15,7 @@ func test(x int) {
 
 	fmt.Printf("start test %d\n", x)
 	cond.L.Lock() // 获取锁
-    cond.Wait()   // 等待通知 暂时阻塞
+    cond.Wait()   // 阻塞当前线程，直到收到该条件变量发来的通知, wati前必须先 lock
     fmt.Printf("start run %d\n", x)
     cond.L.Unlock()
 }
@@ -29,15 +29,15 @@ func main() {
 	
 	time.Sleep(time.Second * 1)
     fmt.Println("Signal 1")
-	cond.Signal() 					// 下发一个通知给已经获取锁的goroutine
+	cond.Signal() 					// 下发一个通知给已经获取锁的goroutine, 让该条件变量向至少一个正在等待它的通知的线程发送通知，表示共享数据的状态已经改变。
 	
 	time.Sleep(time.Second * 1)
     fmt.Println("Signal 2")
-	cond.Signal() 					// 3秒之后 下发一个通知给已经获取锁的goroutine
+	cond.Signal() 					// 下发一个通知给已经获取锁的goroutine
 	
 	time.Sleep(time.Second * 1)
 	fmt.Println("Broadcast")
-	cond.Broadcast() 				//3秒之后 下发广播给所有等待的goroutine
+	cond.Broadcast() 				//下发广播给所有等待的goroutine
 
 	wg.Wait()
 }
