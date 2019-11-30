@@ -32,5 +32,13 @@ func main() {
 	fmt.Println(u.RawQuery)
     m, _ := url.ParseQuery(u.RawQuery)
     fmt.Println(m)
-    fmt.Println(m["k"][0])
+	fmt.Println(m["k"][0])
+	
+	params := url.Values{}
+	params.Add("name", "@Rajeev")
+	params.Add("phone", "+919999999999")
+	fmt.Println(params.Encode())
+
+	path := "path with?reserved+characters"
+	fmt.Println(url.PathEscape(path))
 }
