@@ -2,35 +2,27 @@ package main
 
 import (
 	"sync"
-	"time"
+	"bytes"
 	"fmt"
 )
 
-var bytePool = sync.Pool {
+var bufPool = sync.Pool{
 	New: func() interface{} {
-		b := make([]byte, 1024)
-		return &b
+		// The Pool's New function should generally only return pointer
+		// types, since a pointer can be put into the return interface
+		// value without an allocation:
+		return new(bytes.Buffer)
 	},
 }
 
 func main() {
-	a := time.Now().Unix()
+	b := bufPool.Get().(*bytes.Buffer)
+	b.Reset()
 
-	for i := 0; i <  1000000000; i++ {
-		obj := make([]byte, 1024)
-		_ = obj
-	}
+	b.WriteString("path")
+	b.WriteByte('=')
+	b.WriteString("/search?q=flowers")
 
-	b := time.Now().Unix()
-
-	for i := 0; i <  1000000000; i++ {
-		obj := bytePool.Get().(*[]byte)
-		_ = obj
-		bytePool.Put(obj)
-	}
-
-	c := time.Now().Unix()
-
-	fmt.Println("without pool ", b - a, "s")
-	fmt.Println("with    pool ", c - b, "s")
+	fmt.Println(b.Bytes())
+	bufPool.Put(b)
 }
