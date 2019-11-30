@@ -48,6 +48,12 @@ func main() {
 	fmt.Println(now.Format("2006-01-02"))
 	fmt.Println(now.Format("2006-01-02 15:04:05"))
 	fmt.Println(now.Format(time.RFC3339)) 
+	fmt.Println(now.Format("3:04PM"))
+	fmt.Println(now.Format("Mon Jan _2 15:04:05 2006"))
+	fmt.Println(now.Format("2006-01-02T15:04:05.999999-07:00"))
+	fmt.Printf("%d-%02d-%02dT%02d:%02d:%02d-00:00\n",
+		now.Year(), now.Month(), now.Day(),
+		now.Hour(), now.Minute(), now.Second())
 
 	//年月日
 	fmt.Println("年月日:")
