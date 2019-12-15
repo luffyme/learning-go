@@ -29,7 +29,10 @@ Go学习文档
 * [Golang从入门到跑路](https://github.com/jiujuan/go-collection?tdsourcetag=s_pcqq_aiomsg)     
 * [Golang command tutorial in Chinese.](https://github.com/hyper0x/go_command_tutorial?tdsourcetag=s_pcqq_aiomsg)         
 * [gopherdaily](https://github.com/bigwhite/gopherdaily)
-    
+* [go github Trending](https://github.com/trending/go?since=monthly)
+* [go bilibili 夜读](https://space.bilibili.com/326749661)
+* [go github 夜读](https://github.com/developer-learning/night-reading-go)
+
 ### 博客
 
 * [轩脉刃de刀光剑影](https://www.cnblogs.com/yjf512/category/385369.html)     
